@@ -6,46 +6,27 @@ namespace AssemblyBrowserApplication.Service.impl;
 public class AssemblyServiceImpl : IService
 {
     private const string ASSEMBLY_ERROR_MESSAGE = "There isn't such assembly";
+    private string _assemblyPath;
+    private NamespaceService _namespaceService = new();
     
-    public string AssemblyPath
-    {
-        get;
-    }
-
-    public NamespaceService NamespaceService
-    {
-        get;
-    }
-
     public AssemblyServiceImpl(string assemblyPath)
     {
-        AssemblyPath = assemblyPath;
-        NamespaceService = new NamespaceService();
+        _assemblyPath = assemblyPath;
     }
 
-    private Assembly GetAssembly()
+    public AssemblyModel GetAssemblyInfo()
     {
-        Assembly assembly;
-        
         try
         {
-            assembly = Assembly.LoadFrom(AssemblyPath);
+            var assemblyModel = new AssemblyModel();
+            var assembly = Assembly.LoadFrom(_assemblyPath);
+            assemblyModel.Namespacies = _namespaceService.GetNamespaceInfo(assembly);
+            
+            return assemblyModel;
         }
         catch (Exception)
         {
             throw new Exception(ASSEMBLY_ERROR_MESSAGE);
         }
-
-        return assembly;
-    }
-
-    public AssemblyModel GetAssemblyInfo()
-    {
-        var assemblyModel = new AssemblyModel();
-        var assembly = GetAssembly();
-        
-        assemblyModel.Namespacies = NamespaceService.GetNamespaceInfo(assembly);
-        
-        return assemblyModel;
     }
 }

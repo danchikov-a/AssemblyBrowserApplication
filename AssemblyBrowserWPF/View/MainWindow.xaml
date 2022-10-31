@@ -10,24 +10,26 @@
     <Window.DataContext>
         <viewModel:AssemblyViewModel />
     </Window.DataContext>
-    <StackPanel>
-        <Button Background="Red" Foreground="Black" FontSize="15" FontWeight="Bold"
-                DockPanel.Dock="Top" Width="150"
-                Height="50" Command="{Binding OpenFileCommand}" Content="Open file" />
+    <ScrollViewer>
+        <StackPanel>
+            <Button Background="Red" Foreground="Black" FontSize="15" FontWeight="Bold"
+                    DockPanel.Dock="Top" Width="150"
+                    Height="50" Command="{Binding OpenFileCommand}" Content="Open file" />
 
-        <TreeView ItemsSource="{Binding Nodes}">
-            <TreeView.Resources>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="FontSize" Value="10" />
-                </Style>
-            </TreeView.Resources>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
-                    <TextBlock Text="{Binding Title}" />
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-        
-    </StackPanel>
+            <TreeView ItemsSource="{Binding Nodes}">
+                <TreeView.Resources>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+                </TreeView.Resources>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                        <TextBlock Text="{Binding Title}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+        </StackPanel>
+    </ScrollViewer>
 </Window>

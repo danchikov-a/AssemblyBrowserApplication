@@ -6,19 +6,8 @@ public class PropertyService
 {
     public List<PropertyModel> GetPropertyInfos(Type type)
     {
-        List<PropertyModel> propertyInfos = new();
-        var properties = type.GetProperties();
-        
-        foreach (var property in properties)
-        {
-            var propertyModel = new PropertyModel();
-            
-            propertyModel.Name = property.Name;
-            propertyModel.Type = property.PropertyType.Name;
-            
-            propertyInfos.Add(propertyModel);
-        }
-            
-        return propertyInfos;
+        return type.GetProperties().
+            Select(property => new PropertyModel {Name = property.Name, Type = property.PropertyType.Name}).
+            ToList();
     }
 }
