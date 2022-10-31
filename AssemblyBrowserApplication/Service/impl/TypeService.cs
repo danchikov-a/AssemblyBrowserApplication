@@ -11,23 +11,17 @@ public class TypeService
     
     public List<TypeModel> GetTypeInfo(Assembly assembly, string namespaceTitle)
     {
-        List<TypeModel> typeInfos = new();
         var types = assembly.GetTypes().Where(type => namespaceTitle == type.Namespace);
 
-        foreach (var type in types)
-        {
-            var typeModel = new TypeModel();
-
-            typeModel.Fields = _fieldService.GetFieldInfos(type);
-            typeModel.Properties = _propertyService.GetPropertyInfos(type);
-            typeModel.Methods = _methodService.GetMethodInfos(type);
-            typeModel.Name = type.Name;
-            typeModel.Type = ChooseType(type);
-
-            typeInfos.Add(typeModel);
-        }
-
-        return typeInfos;
+        return types.Select(type => new TypeModel
+            {
+                Fields = _fieldService.GetFieldInfos(type),
+                Properties = _propertyService.GetPropertyInfos(type),
+                Methods = _methodService.GetMethodInfos(type),
+                Name = type.Name,
+                Type = ChooseType(type)
+            })
+            .ToList();
     }
 
     private string ChooseType(Type type)
